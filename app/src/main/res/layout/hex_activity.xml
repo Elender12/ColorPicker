@@ -7,8 +7,8 @@
 
     <View
         android:id="@+id/view"
-        android:layout_width="327dp"
-        android:layout_height="204dp"
+        android:layout_width="322dp"
+        android:layout_height="201dp"
         android:background="#A83838"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
