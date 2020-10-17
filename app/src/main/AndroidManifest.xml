@@ -21,7 +21,6 @@
         <activity
             android:name=".RGBActivity"
             android:parentActivityName=".MainActivity">
-
         </activity>
     </application>
 
