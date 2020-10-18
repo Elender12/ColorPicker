@@ -161,7 +161,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/editTextBlue"
+        android:id="@+id/editTextBLUE"
         android:layout_width="79dp"
         android:layout_height="51dp"
         android:ems="10"
@@ -235,4 +235,15 @@
         app:layout_constraintStart_toStartOf="@+id/guideline13"
         app:layout_constraintTop_toTopOf="@+id/guideline11"
         app:layout_constraintVertical_bias="0.369" />
+
+    <View
+        android:id="@+id/colorBkgView"
+        android:layout_width="260dp"
+        android:layout_height="131dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline11"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.509" />
 </androidx.constraintlayout.widget.ConstraintLayout>
