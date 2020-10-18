@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -24,14 +25,32 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             PopupMenu popup = new PopupMenu(this, v);
             MenuInflater inflater = popup.getMenuInflater();
             inflater.inflate(R.menu.app_menu, popup.getMenu());
+   /*            popup.setOnMenuItemClickListener((PopupMenu.OnMenuItemClickListener) MainActivity.this);
+            popup.show()*/
+            ;
+
             popup.setOnMenuItemClickListener(MainActivity.this);
+
             popup.show();
         });
 
 
     }
 
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.toHex:
+            case R.id.toRGB:
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
+/*
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         Toast.makeText(this, "Selected Item: " + item.getTitle(), Toast.LENGTH_SHORT).show();
@@ -48,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 return false;
         }
     }
+*/
 
 
 }

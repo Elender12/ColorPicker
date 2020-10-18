@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item
-        android:id="@+id/toRGB"
-        android:title="@string/toRGB" />
-    <item
-        android:id="@+id/toHex"
-        android:title="@string/toHex" />
-
-
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/toHex"
+            android:title="@string/toHex" />
+        <item
+            android:id="@+id/toRGB"
+            android:title="@string/toRGB" />
+    </group>
 </menu>

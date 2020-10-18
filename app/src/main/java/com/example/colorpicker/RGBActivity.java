@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -25,6 +26,7 @@ public class RGBActivity extends AppCompatActivity {
     SeekBar.OnSeekBarChangeListener seekBarListener;
     TextWatcher textWatcher;
     View view;
+    TextView letterB;
     EditText editTextRED, editTextGREEN, editTextBLUE;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -48,21 +50,22 @@ public class RGBActivity extends AppCompatActivity {
                 switch (seekBar.getId()) {
                     case R.id.seekBarRED:
                         progressRed = seekBar.getProgress();
+                        editTextRED.setText(String.valueOf(progressRed));
                         view.setBackgroundColor(Color.rgb(progressRed, progressGreen, progressBlue));
-                        Log.d(TAG, "onProgressChanged: " + seekBar.getProgress());
                         break;
                     case R.id.seekBarGREEN:
                         progressGreen = seekBar.getProgress();
+                        editTextGREEN.setText(String.valueOf(progressGreen));
                         view.setBackgroundColor(Color.rgb(progressRed, progressGreen, progressBlue));
                         break;
                     case R.id.seekBarBLUE:
                         progressBlue = seekBar.getProgress();
+                        editTextBLUE.setText(String.valueOf(progressBlue));
                         view.setBackgroundColor(Color.rgb(progressRed, progressGreen, progressBlue));
                         break;
                 }
 
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
@@ -116,11 +119,18 @@ public class RGBActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+
                 try {
                     ETred = Integer.parseInt(s.toString());
-                    view.setBackgroundColor(Color.rgb(ETred, ETgreen, ETblue));
+                    if (ETred < 256) {
+                        view.setBackgroundColor(Color.rgb(ETred, ETgreen, ETblue));
+                        redSeekBar.setProgress(ETred);
+                    } else {
+                        Toast.makeText(RGBActivity.this, "No se permiten valores mayores de 255", Toast.LENGTH_SHORT).show();
+                        s.clear();
 
-                } catch (NumberFormatException nfe) {
+                    }
+                } catch (NumberFormatException ignored) {
 
                 }
 
@@ -141,8 +151,14 @@ public class RGBActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 try {
                     ETgreen = Integer.parseInt(s.toString());
-                    view.setBackgroundColor(Color.rgb(ETred, ETgreen, ETblue));
-                } catch (NumberFormatException nfe) {
+                    if (ETgreen < 256) {
+                        view.setBackgroundColor(Color.rgb(ETred, ETgreen, ETblue));
+                        greenSeekBar.setProgress(ETgreen);
+                    } else {
+                        Toast.makeText(RGBActivity.this, "No se permiten valores mayores de 255", Toast.LENGTH_SHORT).show();
+                        s.clear();
+                    }
+                } catch (NumberFormatException ignored) {
 
                 }
 
@@ -156,15 +172,23 @@ public class RGBActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                TextView letterB = findViewById(R.id.letterB);
+                letterB.setTextColor(Color.BLUE);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 try {
                     ETblue = Integer.parseInt(s.toString());
-                    view.setBackgroundColor(Color.rgb(ETred, ETgreen, ETblue));
-                } catch (NumberFormatException nfe) {
+                    if (ETblue < 256) {
+                        view.setBackgroundColor(Color.rgb(ETred, ETgreen, ETblue));
+                        blueSeekBar.setProgress(ETblue);
+                        //  letterB.setTextColor(Color.GRAY);
+                    } else {
+                        Toast.makeText(RGBActivity.this, "No se permiten valores mayores de 255", Toast.LENGTH_SHORT).show();
+                        s.clear();
+                    }
+                } catch (NumberFormatException ignored) {
 
                 }
 
