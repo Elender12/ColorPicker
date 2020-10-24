@@ -1,13 +1,17 @@
 package com.example.colorpicker;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,30 +22,27 @@ import androidx.appcompat.app.AppCompatActivity;
 /**
  * @author Elena
  */
-public class RGBActivity extends AppCompatActivity {
+public class ColorActivity extends AppCompatActivity  implements PopupMenu.OnMenuItemClickListener {
     private static final String TAG = "testingTAG";
     SeekBar redSeekBar, greenSeekBar, blueSeekBar;
     int progressRed = 0, progressGreen = 0, progressBlue = 0;
-    int ETred = 0, ETgreen = 0, ETblue = 0;
     SeekBar.OnSeekBarChangeListener seekBarListener;
     TextWatcher textWatcher;
     View view;
-    TextView letterB;
+    ImageButton optionsButton;
     EditText editTextRED, editTextGREEN, editTextBLUE;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rgb_activity);
+        setContentView(R.layout.color_activity);
         //inicializar las vistas
-        view = findViewById(R.id.colorBkgView);
-        blueSeekBar = findViewById(R.id.seekBarBLUE);
-        greenSeekBar = findViewById(R.id.seekBarGREEN);
-        redSeekBar = findViewById(R.id.seekBarRED);
-        editTextRED = findViewById(R.id.editTextRED);
-        editTextGREEN = findViewById(R.id.editTextGreen);
-        editTextBLUE = findViewById(R.id.editTextBLUE);
+        this.view = findViewById(R.id.colorBkgView);
+        this.blueSeekBar = findViewById(R.id.seekBarBLUE);
+        this.greenSeekBar = findViewById(R.id.seekBarGREEN);
+        this.redSeekBar = findViewById(R.id.seekBarRED);
+        this.optionsButton = findViewById(R.id.optionsInput);
 
         //implementar LISTENERS para los seek bars
         seekBarListener = new SeekBar.OnSeekBarChangeListener() {
@@ -77,6 +78,16 @@ public class RGBActivity extends AppCompatActivity {
         redSeekBar.setOnSeekBarChangeListener(seekBarListener);
         greenSeekBar.setOnSeekBarChangeListener(seekBarListener);
         blueSeekBar.setOnSeekBarChangeListener(seekBarListener);
+
+        this.optionsButton.setOnClickListener(v -> {
+
+            PopupMenu popup = new PopupMenu(this, v);
+            MenuInflater inflater = popup.getMenuInflater();
+            inflater.inflate(R.menu.app_menu, popup.getMenu());
+             popup.setOnMenuItemClickListener(ColorActivity.this);
+            popup.show();
+        });
+
      /*   textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -106,6 +117,7 @@ public class RGBActivity extends AppCompatActivity {
             editTextGREEN.addTextChangedListener(textWatcher);
             editTextBLUE.addTextChangedListener(textWatcher);*/
 
+/*
         editTextRED.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -195,5 +207,22 @@ public class RGBActivity extends AppCompatActivity {
             }
         });
 
+*/
+
     }
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.toHex:
+                    Toast.makeText(this, "Selected Item: " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                case R.id.toRGB:
+                    Toast.makeText(this, "Selected Item: " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                    item.setChecked(!item.isChecked());
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
+        }
+
+
 }

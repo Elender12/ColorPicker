@@ -19,7 +19,7 @@
             android:name=".HexActivity"
             android:parentActivityName=".MainActivity"></activity>
         <activity
-            android:name=".RGBActivity"
+            android:name=".ColorActivity"
             android:parentActivityName=".MainActivity">
         </activity>
     </application>

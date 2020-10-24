@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
+public class MainActivity extends AppCompatActivity {
 
     Button menu;
 
@@ -22,36 +22,25 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         setContentView(R.layout.activity_main);
         menu = findViewById(R.id.btnMenu);
         menu.setOnClickListener(v -> {
+            Intent intent= new Intent(this, ColorActivity.class);
+            startActivity(intent);
+         /*
             PopupMenu popup = new PopupMenu(this, v);
             MenuInflater inflater = popup.getMenuInflater();
             inflater.inflate(R.menu.app_menu, popup.getMenu());
-   /*            popup.setOnMenuItemClickListener((PopupMenu.OnMenuItemClickListener) MainActivity.this);
+             popup.setOnMenuItemClickListener((PopupMenu.OnMenuItemClickListener) MainActivity.this);
             popup.show()*/
             ;
 
-            popup.setOnMenuItemClickListener(MainActivity.this);
+         //   popup.setOnMenuItemClickListener(MainActivity.this);
 
-            popup.show();
+           // popup.show();
         });
 
 
     }
 
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.toHex:
-            case R.id.toRGB:
-                if (item.isChecked()) item.setChecked(false);
-                else item.setChecked(true);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-/*
-    @Override
+/*    @Override
     public boolean onMenuItemClick(MenuItem item) {
         Toast.makeText(this, "Selected Item: " + item.getTitle(), Toast.LENGTH_SHORT).show();
         switch (item.getItemId()) {
@@ -66,8 +55,5 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             default:
                 return false;
         }
-    }
-*/
-
-
+    }*/
 }
