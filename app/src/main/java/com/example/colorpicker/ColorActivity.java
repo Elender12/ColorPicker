@@ -52,6 +52,9 @@ public class ColorActivity extends AppCompatActivity  implements PopupMenu.OnMen
         this.optionsButton = findViewById(R.id.optionsInput);
         this.demoText= findViewById(R.id.demoText);
         this.inputValues= findViewById(R.id.inputValues);
+        this.editTextBLUE= findViewById(R.id.editTextBLUE);
+        this.editTextGREEN= findViewById(R.id.editTextGREEN);
+        this.editTextRED= findViewById(R.id.editTextRED);
         //implementar LISTENERS para los seek bars
         seekBarListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -230,6 +233,13 @@ public class ColorActivity extends AppCompatActivity  implements PopupMenu.OnMen
             @Override
             public void afterTextChanged(Editable s) {
                 try{
+                    int colorInputRGB = 6;
+                    int red=0, green=0, blue=0;
+                    char[] cs = new char[s.length()];
+                    if(s.length() == colorInputRGB){
+                      s.getChars(0, s.length(), cs, 0);
+                        Log.d(TAG, "afterTextChanged: cs is::"+cs);
+                    }
                              /*   ETred = Integer.parseInt(s.toString());
                                 ETgreen = Integer.parseInt(s.toString());
                                 ETblue = Integer.parseInt(s.toString());
@@ -259,6 +269,7 @@ public class ColorActivity extends AppCompatActivity  implements PopupMenu.OnMen
                     this.inputValues.setInputType(InputType.TYPE_CLASS_TEXT);
                     this.inputValues.setText("#");
                     Toast.makeText(this, "Selected Item: " + inputValues.toString(), Toast.LENGTH_SHORT).show();
+                    this.inputValues.setVisibility(View.INVISIBLE);
                     this.inputValues.addTextChangedListener(textWatcher);
                     return true;
                 }else if(item.getItemId() == R.id.toRGB){

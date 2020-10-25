@@ -5,46 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editTextGREEN"
-        android:layout_width="66dp"
-        android:layout_height="42dp"
-        android:layout_marginEnd="12dp"
-        android:ems="10"
-        android:maxLength="3"
-        android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/inputValues"
-        app:layout_constraintEnd_toStartOf="@+id/guideline21"
-        app:layout_constraintHorizontal_bias="0.923"
-        app:layout_constraintStart_toStartOf="@+id/guideline14"
-        app:layout_constraintTop_toBottomOf="@+id/optionsInput"
-        app:layout_constraintVertical_bias="0.584" />
-
-    <EditText
-        android:id="@+id/editTextBLUE"
-        android:layout_width="66dp"
-        android:layout_height="42dp"
-        android:ems="10"
-        android:maxLength="3"
-        android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/guideline17"
-        app:layout_constraintEnd_toStartOf="@+id/guideline13"
-        app:layout_constraintStart_toStartOf="@+id/guideline21"
-        app:layout_constraintTop_toTopOf="@+id/guideline20" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline14"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="160dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline21"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="251dp" />
+        app:layout_constraintGuide_begin="161dp"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/textView4"
@@ -181,7 +147,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="335dp" />
+        app:layout_constraintGuide_begin="290dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="54dp" />
 
     <View
         android:id="@+id/colorBkgView"
@@ -211,8 +184,6 @@
         android:id="@+id/seekBarALPHA"
         android:layout_width="254dp"
         android:layout_height="31dp"
-        android:max="100"
-        android:min="0"
         app:layout_constraintBottom_toTopOf="@+id/guideline9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
@@ -228,14 +199,15 @@
 
     <EditText
         android:id="@+id/inputValues"
-        android:layout_width="233dp"
-        android:layout_height="43dp"
+        android:layout_width="245dp"
+        android:layout_height="45dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:maxLength="6"
+        android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/guideline18"
         app:layout_constraintEnd_toStartOf="@+id/guideline13"
-        app:layout_constraintStart_toStartOf="@+id/guideline10"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline17"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -243,11 +215,13 @@
         android:id="@+id/optionsInput"
         android:layout_width="48dp"
         android:layout_height="43dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline20"
+        app:layout_constraintBottom_toTopOf="@+id/guideline18"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline16"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
+        app:layout_constraintHorizontal_bias="0.438"
+        app:layout_constraintStart_toStartOf="@+id/guideline13"
+        app:layout_constraintTop_toTopOf="@+id/guideline17"
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        android:contentDescription="TODO" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline17"
@@ -293,18 +267,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.48" />
-
-    <EditText
-        android:id="@+id/editTextRED"
-        android:layout_width="66dp"
-        android:layout_height="42dp"
-        android:ems="10"
-        android:inputType="number"
-        android:maxLength="3"
-        app:layout_constraintBottom_toTopOf="@+id/guideline17"
-        app:layout_constraintEnd_toStartOf="@+id/guideline14"
-        app:layout_constraintStart_toStartOf="@+id/guideline10"
-        app:layout_constraintTop_toTopOf="@+id/guideline20" />
+        app:layout_constraintGuide_percent="0.4473324" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
