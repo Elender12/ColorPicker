@@ -27,15 +27,16 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
     private static final String TAG = "testingTAG";
     SeekBar redSeekBar, greenSeekBar, blueSeekBar, alphaSeekBar;
     int progressRed = 0, progressGreen = 0, progressBlue = 0;
-    int red = 0, green = 0, blue = 0;
+    int colorHex = 0, red = 0, green = 0, blue = 0;
     SeekBar.OnSeekBarChangeListener seekBarListener;
-    TextWatcher textWatcher, textWatcherInput;
+    TextWatcher textWatcher;
     View view;
     ImageButton optionsButton;
     TextView demoText;
     EditText editTextRED, editTextGREEN, editTextBLUE;
     EditText inputValues;
     CustomTextWatcher ctwR, ctwG, ctwB;
+    String hex = "";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -47,7 +48,7 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
         this.blueSeekBar = findViewById(R.id.seekBarBLUE);
         this.greenSeekBar = findViewById(R.id.seekBarGREEN);
         this.redSeekBar = findViewById(R.id.seekBarRED);
-        this.alphaSeekBar = findViewById(R.id.seekBarALPHA);
+
         this.optionsButton = findViewById(R.id.optionsInput);
         this.demoText = findViewById(R.id.demoText);
         this.inputValues = findViewById(R.id.inputValues);
@@ -64,17 +65,37 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     editTextRED.setText(String.valueOf(progressRed));
                     demoText.setTextColor(Color.rgb(progressRed, progressGreen, progressBlue));
                     view.setBackgroundColor(Color.rgb(progressRed, progressGreen, progressBlue));
+                    colorHex = Color.argb(0, progressRed, progressGreen, progressBlue);
+                    hex = Integer.toHexString(colorHex);
+                    inputValues.setText(hex);
+                    if (!inputValues.isEnabled()) {
+                        inputValues.setText(hex);
+
+                    }
                 } else if (seekBar.getId() == R.id.seekBarGREEN) {
-                        progressGreen = seekBar.getProgress();
+                    progressGreen = seekBar.getProgress();
                     demoText.setTextColor(Color.rgb(progressRed, progressGreen, progressBlue));
                     editTextGREEN.setText(String.valueOf(progressGreen));
                     view.setBackgroundColor(Color.rgb(progressRed, progressGreen, progressBlue));
+                    colorHex = Color.argb(0, progressRed, progressGreen, progressBlue);
+                    hex = Integer.toHexString(colorHex);
+                    inputValues.setText(hex);
+                    if (!inputValues.isEnabled()) {
+                        inputValues.setText(hex);
 
-                }else if(seekBar.getId() == R.id.seekBarBLUE){
-                        progressBlue = seekBar.getProgress();
+                    }
+
+                }else if(seekBar.getId() == R.id.seekBarBLUE) {
+                    progressBlue = seekBar.getProgress();
                     demoText.setTextColor(Color.rgb(progressRed, progressGreen, progressBlue));
                     editTextBLUE.setText(String.valueOf(progressBlue));
                     view.setBackgroundColor(Color.rgb(progressRed, progressGreen, progressBlue));
+                    colorHex = Color.argb(0, progressRed, progressGreen, progressBlue);
+                    hex = Integer.toHexString(colorHex);
+                    inputValues.setText(hex);
+                    if (!inputValues.isEnabled()) {
+                        inputValues.setText(hex);
+                    }
                 }
             }
             @Override
@@ -100,9 +121,9 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
         this.editTextBLUE.setEnabled(false);
         this.editTextGREEN.setEnabled(false);
         this.editTextRED.setEnabled(false);
-        ctwR = new CustomTextWatcher(editTextRED, redSeekBar, view, "red", this.inputValues);
-        ctwG = new CustomTextWatcher(editTextGREEN, greenSeekBar, view, "green", this.inputValues);
-        ctwB = new CustomTextWatcher(editTextBLUE, blueSeekBar, view, "blue", this.inputValues);
+        ctwR = new CustomTextWatcher(editTextRED, redSeekBar, view, "red", this.inputValues, this.demoText);
+        ctwG = new CustomTextWatcher(editTextGREEN, greenSeekBar, view, "green", this.inputValues, this.demoText);
+        ctwB = new CustomTextWatcher(editTextBLUE, blueSeekBar, view, "blue", this.inputValues, this.demoText);
         textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -122,10 +143,16 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                         r = Color.red(color);
                         g = Color.green(color);
                         b = Color.blue(color);
-                        editTextRED.setText(String.valueOf(r));
-                        editTextGREEN.setText(String.valueOf(g));
-                        editTextBLUE.setText(String.valueOf(b));
+                        if (!editTextRED.isEnabled() && !editTextGREEN.isEnabled() && !editTextBLUE.isEnabled()) {
+                            editTextRED.setText(String.valueOf(r));
+                            redSeekBar.setProgress(r);
+                            editTextGREEN.setText(String.valueOf(g));
+                            greenSeekBar.setProgress(g);
+                            editTextBLUE.setText(String.valueOf(b));
+                            blueSeekBar.setProgress(b);
+                        }
                         view.setBackgroundColor(Color.parseColor(s.toString()));
+                        demoText.setTextColor(Color.parseColor(s.toString()));
                     }
                 } catch (IllegalArgumentException iae) {
                     Toast.makeText(ColorActivity.this, "El color no está en un formato correcto.", Toast.LENGTH_LONG).show();
@@ -147,37 +174,49 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     this.editTextBLUE.setEnabled(false);
                     this.editTextGREEN.setEnabled(false);
                     this.editTextRED.setEnabled(false);
+                    this.redSeekBar.setProgress(0);
+                    this.greenSeekBar.setProgress(0);
+                    this.blueSeekBar.setProgress(0);
                     //habilito valores HEX
-                    this.alphaSeekBar.setEnabled(true);
                     this.inputValues.setEnabled(true);
+                    //habiito filtros para que solo haya 7 caracteres
                     this.inputValues.setFilters(filters);
+                    //le digo de que tipo es el input
                     this.inputValues.setInputType(InputType.TYPE_CLASS_TEXT);
-                    //this.inputValues.setText("#");
+                    //borro cualquier otro input que puede haber
                     this.inputValues.getText().clear();
+                    this.inputValues.setText("#");
+                    //limpio valores anteriores
                     this.editTextBLUE.getText().clear();
                     this.editTextGREEN.getText().clear();
                     this.editTextRED.getText().clear();
+                    //le pongo el color blanco por defecto
+                    this.view.setBackgroundColor(Color.WHITE);
+                    this.demoText.setTextColor(Color.BLACK);
+
                     this.inputValues.addTextChangedListener(textWatcher);
                     item.setChecked(!item.isChecked());
                     return true;
                 }else if(item.getItemId() == R.id.toRGB) {
-                    this.alphaSeekBar.setEnabled(false);
+                    //le pongo el color blanco por defecto
+                    this.view.setBackgroundColor(Color.WHITE);
+                    this.demoText.setTextColor(Color.BLACK);
+                    //deshabilito los otros inputs
                     this.inputValues.setEnabled(false);
+                    //habilito los de RGB
                     this.editTextBLUE.setEnabled(true);
                     this.editTextGREEN.setEnabled(true);
                     this.editTextRED.setEnabled(true);
+                    //limpio los valores anteriores
                     this.inputValues.getText().clear();
+                    this.inputValues.setText("#");
                     this.editTextBLUE.getText().clear();
                     this.editTextGREEN.getText().clear();
                     this.editTextRED.getText().clear();
-
-                    //
-             /*       int colorInt = ((ColorDrawable) view.getBackground()).getColor();
-                    Color c = Color.valueOf(colorInt);
-                    int color = Color.argb(0, c.red(), c.green(),c.blue());
-                    String hex = Integer.toHexString(color);
-                    //
-                    this.inputValues.setText(hex);*/
+                    this.redSeekBar.setProgress(0);
+                    this.greenSeekBar.setProgress(0);
+                    this.blueSeekBar.setProgress(0);
+                    //implemento listeners
                     this.editTextRED.addTextChangedListener(ctwR);
                     this.editTextGREEN.addTextChangedListener(ctwG);
                     this.editTextBLUE.addTextChangedListener(ctwB);
