@@ -7,5 +7,8 @@
         <item
             android:id="@+id/toRGB"
             android:title="@string/toRGB" />
+        <item
+            android:id="@+id/Bars"
+            android:title="@string/barRGB" />
     </group>
 </menu>

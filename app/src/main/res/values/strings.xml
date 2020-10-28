@@ -12,4 +12,7 @@
     <string name="r">R</string>
     <string name="g">G</string>
     <string name="b">B</string>
+    <string name="hashtag">#</string>
+    <string name="barRGB">Barras RGB</string>
+    <string name="chooseOption">Elegir una opcion: </string>
 </resources>

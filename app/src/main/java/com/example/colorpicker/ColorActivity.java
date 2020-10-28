@@ -27,7 +27,8 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
     private static final String TAG = "testingTAG";
     SeekBar redSeekBar, greenSeekBar, blueSeekBar, alphaSeekBar;
     int progressRed = 0, progressGreen = 0, progressBlue = 0;
-    int colorHex = 0, red = 0, green = 0, blue = 0;
+    int colorHex = 0;
+    TextView r, g, b, hash;
     SeekBar.OnSeekBarChangeListener seekBarListener;
     TextWatcher textWatcher;
     View view;
@@ -55,7 +56,18 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
         this.editTextRED = findViewById(R.id.editTextRED);
         this.editTextGREEN = findViewById(R.id.editTextGREEN);
         this.editTextBLUE = findViewById(R.id.editTextBLUE);
+        this.r = findViewById(R.id.tvR);
+        this.g = findViewById(R.id.tvG);
+        this.b = findViewById(R.id.tvB);
+        this.hash = findViewById(R.id.tvHash);
         this.view.setBackgroundColor(Color.WHITE);
+        this.inputValues.setEnabled(false);
+        this.editTextBLUE.setEnabled(false);
+        this.editTextGREEN.setEnabled(false);
+        this.editTextRED.setEnabled(false);
+        this.redSeekBar.setEnabled(false);
+        this.greenSeekBar.setEnabled(false);
+        this.blueSeekBar.setEnabled(false);
         //implementar LISTENERS para los seek bars
         seekBarListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -117,10 +129,8 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
             popup.setOnMenuItemClickListener(ColorActivity.this);
             popup.show();
         });
-        this.inputValues.setEnabled(false);
-        this.editTextBLUE.setEnabled(false);
-        this.editTextGREEN.setEnabled(false);
-        this.editTextRED.setEnabled(false);
+
+
         ctwR = new CustomTextWatcher(editTextRED, redSeekBar, view, "red", this.inputValues, this.demoText);
         ctwG = new CustomTextWatcher(editTextGREEN, greenSeekBar, view, "green", this.inputValues, this.demoText);
         ctwB = new CustomTextWatcher(editTextBLUE, blueSeekBar, view, "blue", this.inputValues, this.demoText);
@@ -168,15 +178,13 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
 
             InputFilter[] filters = new InputFilter[1];
                 if(item.getItemId() == R.id.toHex) {
+
                     maxLength = 7;
                     filters[0] = new InputFilter.LengthFilter(maxLength);
                     //deshabilito valores RGB
-                    this.editTextBLUE.setEnabled(false);
-                    this.editTextGREEN.setEnabled(false);
-                    this.editTextRED.setEnabled(false);
-                    this.redSeekBar.setProgress(0);
-                    this.greenSeekBar.setProgress(0);
-                    this.blueSeekBar.setProgress(0);
+                    disableTextViewRGB();
+                    disableEditTextRGB();
+                    resetBarProgress();
                     //habilito valores HEX
                     this.inputValues.setEnabled(true);
                     //habiito filtros para que solo haya 7 caracteres
@@ -185,7 +193,7 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     this.inputValues.setInputType(InputType.TYPE_CLASS_TEXT);
                     //borro cualquier otro input que puede haber
                     this.inputValues.getText().clear();
-                    this.inputValues.setText("#");
+                    //this.inputValues.setText("#");
                     //limpio valores anteriores
                     this.editTextBLUE.getText().clear();
                     this.editTextGREEN.getText().clear();
@@ -204,25 +212,66 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     //deshabilito los otros inputs
                     this.inputValues.setEnabled(false);
                     //habilito los de RGB
-                    this.editTextBLUE.setEnabled(true);
-                    this.editTextGREEN.setEnabled(true);
-                    this.editTextRED.setEnabled(true);
+                    enableEditTextRGB();
+                    activeTextViewRGB();
                     //limpio los valores anteriores
                     this.inputValues.getText().clear();
-                    this.inputValues.setText("#");
+                    //this.inputValues.setText("#");
                     this.editTextBLUE.getText().clear();
                     this.editTextGREEN.getText().clear();
                     this.editTextRED.getText().clear();
-                    this.redSeekBar.setProgress(0);
-                    this.greenSeekBar.setProgress(0);
-                    this.blueSeekBar.setProgress(0);
+                    resetBarProgress();
                     //implemento listeners
                     this.editTextRED.addTextChangedListener(ctwR);
                     this.editTextGREEN.addTextChangedListener(ctwG);
                     this.editTextBLUE.addTextChangedListener(ctwB);
                     item.setChecked(!item.isChecked());
                     return true;
+                } else if (item.getItemId() == R.id.Bars) {
+                    disableTextViewRGB();
+                    this.inputValues.setEnabled(false);
+                    disableEditTextRGB();
+                    enableSeekBars();
+                    item.setChecked(!item.isChecked());
+                    return true;
+
                 }
-                    return super.onOptionsItemSelected(item);
+            return super.onOptionsItemSelected(item);
         }
+
+    public void activeTextViewRGB() {
+        this.r.setTextColor(Color.RED);
+        this.g.setTextColor(Color.GREEN);
+        this.b.setTextColor(Color.BLUE);
+    }
+
+    public void disableTextViewRGB() {
+        this.r.setTextColor(Color.GRAY);
+        this.g.setTextColor(Color.GRAY);
+        this.b.setTextColor(Color.GRAY);
+    }
+
+    public void enableEditTextRGB() {
+        this.editTextBLUE.setEnabled(true);
+        this.editTextGREEN.setEnabled(true);
+        this.editTextRED.setEnabled(true);
+    }
+
+    public void disableEditTextRGB() {
+        this.editTextBLUE.setEnabled(false);
+        this.editTextGREEN.setEnabled(false);
+        this.editTextRED.setEnabled(false);
+    }
+
+    public void enableSeekBars() {
+        this.redSeekBar.setEnabled(true);
+        this.greenSeekBar.setEnabled(true);
+        this.blueSeekBar.setEnabled(true);
+    }
+
+    public void resetBarProgress() {
+        this.redSeekBar.setProgress(0);
+        this.greenSeekBar.setProgress(0);
+        this.blueSeekBar.setProgress(0);
+    }
 }
