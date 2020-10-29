@@ -89,6 +89,9 @@ public class CustomTextWatcher implements TextWatcher {
                         break;
                 }
                 bar.setProgress(value);
+            } else if (value > 255 && s.length() == 3) {
+                // todo show toast with error
+
             }
         } catch (NumberFormatException ignored) {
         }
