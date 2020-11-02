@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -124,10 +123,11 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
             popup.show();
         });
 
+
         //text watchers
-        ctwR = new CustomTextWatcher(editTextRED, redSeekBar, view, "red", this.inputValues, this.demoText);
-        ctwG = new CustomTextWatcher(editTextGREEN, greenSeekBar, view, "green", this.inputValues, this.demoText);
-        ctwB = new CustomTextWatcher(editTextBLUE, blueSeekBar, view, "blue", this.inputValues, this.demoText);
+        ctwR = new CustomTextWatcher(editTextRED, redSeekBar, "red", this);
+        ctwG = new CustomTextWatcher(editTextGREEN, greenSeekBar, "green", this);
+        ctwB = new CustomTextWatcher(editTextBLUE, blueSeekBar, "blue", this);
         textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -135,22 +135,15 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                String value = s.toString();
+                inputValues.setSelection(value.length());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 int hexFormat = 7;
-                String value = s.toString();
-
                 if (s.length() == hexFormat) {
-
                     try {
-                        String startCharcter= "";
-                        startCharcter =  value.substring(0,1);
-
-                        Log.d(TAG, "afterTextChanged: Entra en la condición con "+s);
-                        Log.d(TAG, "afterTextChanged: Entra en la condición con "+startCharcter);
                         int color = Color.parseColor(String.valueOf(s));
                         int r, g, b;
                         r = Color.red(color);
@@ -167,42 +160,28 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     } catch(IllegalArgumentException iae){
                         Toast.makeText(ColorActivity.this, "El color no está en un formato correcto.", Toast.LENGTH_LONG).show();
                         Log.d(TAG, "afterTextChanged: salta el error con:" + s);
-                        //s.clear();
+                        s.clear();
                     }
-                }else {
-                    Log.d(TAG, "afterTextChanged: no entiendo");
                 }
-
-
             }
         };
 
     }
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            //int maxLength;
-            //InputFilter[] filters = new InputFilter[1];
                 if(item.getItemId() == R.id.toHex) {
-                    //maxLength = 7;
-                    //filters[0] = new InputFilter.LengthFilter(maxLength);
-                    //deshabilito valores RGB
                     disableTextViewRGB();
                     disableEditTextRGB();
                     resetBarProgress();
                     disableSeekbars();
-                    //habilito valores HEX
-                    this.inputValues.setEnabled(true);
-                    //habiito filtros para que solo haya 7 caracteres
-                    //this.inputValues.setFilters(filters);
-                    //le digo de que tipo es el input
-                    this.inputValues.setInputType(InputType.TYPE_CLASS_TEXT);
-                    //borro cualquier otro input que puede haber
-                    //this.inputValues.setText("#");
-                    //limpio valores anteriores
-                    clearEditText();
-                    //le pongo el color blanco por defecto
                     resetDemoColors();
+                    clearEditText();
+                    //habilito valores HEX
+                    this.inputValues.setInputType(InputType.TYPE_CLASS_TEXT);
+                    this.inputValues.setEnabled(true);
+                    //le digo de que tipo es el input
                     this.hash.setTextColor(Color.BLACK);
+                    this.inputValues.getText().clear();
                     this.inputValues.addTextChangedListener(textWatcher);
                     item.setChecked(!item.isChecked());
                     return true;
@@ -210,6 +189,7 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     //le pongo el color blanco por defecto
                     resetDemoColors();
                     disableSeekbars();
+                    this.hash.setTextColor(Color.GRAY);
                     //deshabilito los otros inputs
                     this.inputValues.setEnabled(false);
                     //habilito los de RGB
@@ -227,15 +207,15 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     return true;
                 } else if (item.getItemId() == R.id.Bars) {
                     disableTextViewRGB();
+                    this.hash.setTextColor(Color.GRAY);
                     this.inputValues.setEnabled(false);
                     disableEditTextRGB();
                     enableSeekBars();
-                    clearEditText();
                     resetBarProgress();
+                    clearEditText();
                     this.inputValues.getText().clear();
                     item.setChecked(!item.isChecked());
                     return true;
-
                 }
             return super.onOptionsItemSelected(item);
         }
