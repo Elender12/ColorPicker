@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ColorPicker</string>
-    <string name="welcomeText">Welcome to ColorPickerApp</string>
+    <string name="welcomeText">Bienvenido a Colour Picker App</string>
     <string name="toHex">Hexadecimal</string>
     <string name="toRGB">RGB</string>
     <string name="menu">Let\'s pick colors!</string>

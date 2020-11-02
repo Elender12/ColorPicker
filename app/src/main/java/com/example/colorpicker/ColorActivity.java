@@ -65,8 +65,6 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
         this.inputValues.setEnabled(false);
         disableEditTextRGB();
         disableSeekbars();
-
-
         //implementar LISTENERS para los seek bars
         seekBarListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -81,7 +79,6 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     inputValues.setText(hex);
                     if (!inputValues.isEnabled()) {
                         inputValues.setText(hex);
-
                     }
                 } else if (seekBar.getId() == R.id.seekBarGREEN) {
                     progressGreen = seekBar.getProgress();
@@ -94,7 +91,6 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     if (!inputValues.isEnabled()) {
                         inputValues.setText(hex);
                     }
-
                 }else if(seekBar.getId() == R.id.seekBarBLUE) {
                     progressBlue = seekBar.getProgress();
                     demoText.setTextColor(Color.rgb(progressRed, progressGreen, progressBlue));
@@ -132,7 +128,6 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
         ctwR = new CustomTextWatcher(editTextRED, redSeekBar, view, "red", this.inputValues, this.demoText);
         ctwG = new CustomTextWatcher(editTextGREEN, greenSeekBar, view, "green", this.inputValues, this.demoText);
         ctwB = new CustomTextWatcher(editTextBLUE, blueSeekBar, view, "blue", this.inputValues, this.demoText);
-
         textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -140,52 +135,61 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                try {
-                    int hexFormat = 7;
-                    Log.d(TAG, "afterTextChanged: s es::" + s);
-                    if (s.length() == hexFormat) {
-                        Log.d(TAG, "afterTextChanged: Entra en la condición!");
-                        int color = Color.parseColor(s.toString());
+                int hexFormat = 7;
+                String value = s.toString();
+
+                if (s.length() == hexFormat) {
+
+                    try {
+                        String startCharcter= "";
+                        startCharcter =  value.substring(0,1);
+
+                        Log.d(TAG, "afterTextChanged: Entra en la condición con "+s);
+                        Log.d(TAG, "afterTextChanged: Entra en la condición con "+startCharcter);
+                        int color = Color.parseColor(String.valueOf(s));
                         int r, g, b;
                         r = Color.red(color);
                         g = Color.green(color);
                         b = Color.blue(color);
-
-                            editTextRED.setText(String.valueOf(r));
-                            redSeekBar.setProgress(r);
-                            editTextGREEN.setText(String.valueOf(g));
-                            greenSeekBar.setProgress(g);
-                            editTextBLUE.setText(String.valueOf(b));
-                            blueSeekBar.setProgress(b);
+                        editTextRED.setText(String.valueOf(r));
+                        redSeekBar.setProgress(r);
+                        editTextGREEN.setText(String.valueOf(g));
+                        greenSeekBar.setProgress(g);
+                        editTextBLUE.setText(String.valueOf(b));
+                        blueSeekBar.setProgress(b);
                         view.setBackgroundColor(Color.parseColor(s.toString()));
                         demoText.setTextColor(Color.parseColor(s.toString()));
+                    } catch(IllegalArgumentException iae){
+                        Toast.makeText(ColorActivity.this, "El color no está en un formato correcto.", Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "afterTextChanged: salta el error con:" + s);
+                        //s.clear();
                     }
-                } catch (IllegalArgumentException iae) {
-                    Toast.makeText(ColorActivity.this, "El color no está en un formato correcto.", Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "afterTextChanged: salta el error con:" + s);
-                    s.clear();
+                }else {
+                    Log.d(TAG, "afterTextChanged: no entiendo");
                 }
+
+
             }
         };
 
     }
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            int maxLength;
-
-            InputFilter[] filters = new InputFilter[1];
+            //int maxLength;
+            //InputFilter[] filters = new InputFilter[1];
                 if(item.getItemId() == R.id.toHex) {
-
-                    maxLength = 7;
+                    //maxLength = 7;
                     //filters[0] = new InputFilter.LengthFilter(maxLength);
                     //deshabilito valores RGB
                     disableTextViewRGB();
                     disableEditTextRGB();
                     resetBarProgress();
+                    disableSeekbars();
                     //habilito valores HEX
                     this.inputValues.setEnabled(true);
                     //habiito filtros para que solo haya 7 caracteres
@@ -193,7 +197,7 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     //le digo de que tipo es el input
                     this.inputValues.setInputType(InputType.TYPE_CLASS_TEXT);
                     //borro cualquier otro input que puede haber
-                    this.inputValues.setText("#");
+                    //this.inputValues.setText("#");
                     //limpio valores anteriores
                     clearEditText();
                     //le pongo el color blanco por defecto
@@ -205,6 +209,7 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                 }else if(item.getItemId() == R.id.toRGB) {
                     //le pongo el color blanco por defecto
                     resetDemoColors();
+                    disableSeekbars();
                     //deshabilito los otros inputs
                     this.inputValues.setEnabled(false);
                     //habilito los de RGB
@@ -225,6 +230,9 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     this.inputValues.setEnabled(false);
                     disableEditTextRGB();
                     enableSeekBars();
+                    clearEditText();
+                    resetBarProgress();
+                    this.inputValues.getText().clear();
                     item.setChecked(!item.isChecked());
                     return true;
 

@@ -16,9 +16,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HexActivity"
-            android:parentActivityName=".MainActivity"></activity>
-        <activity
             android:name=".ColorActivity"
             android:parentActivityName=".MainActivity">
         </activity>

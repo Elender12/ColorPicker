@@ -25,29 +25,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="146dp" />
+        app:layout_constraintGuide_begin="169dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="365dp" />
+        app:layout_constraintGuide_begin="225dp" />
 
     <Button
         android:id="@+id/btnMenu"
-        android:layout_width="263dp"
-        android:layout_height="196dp"
+        android:layout_width="236dp"
+        android:layout_height="54dp"
         android:background="#FFFAFA"
-        android:backgroundTint="#EFE5E5"
-        android:drawableEnd="@drawable/colors"
+        android:backgroundTint="#EDE9E9"
         android:text="@string/menu"
-        android:textColor="#750505"
+        android:textColor="#DFB5B5"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline"
-        app:layout_constraintVertical_bias="0.828" />
+        app:layout_constraintVertical_bias="0.52" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
