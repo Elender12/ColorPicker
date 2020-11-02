@@ -1,18 +1,17 @@
 <resources>
     <string name="app_name">ColorPicker</string>
-    <string name="welcomeText">Bienvenido a Colour Picker App</string>
+    <string name="welcomeText">Colour Picker App</string>
     <string name="toHex">Hexadecimal</string>
     <string name="toRGB">RGB</string>
-    <string name="menu">Let\'s pick colors!</string>
+    <string name="menu">Iniciar</string>
     <string name="red">Red:</string>
     <string name="blue">Blue:</string>
     <string name="green">Green:</string>
-    <string name="alpha">Alpha</string>
-    <string name="demoText">This is a demo text :)</string>
+    <string name="demoText">Demo text</string>
     <string name="r">R</string>
     <string name="g">G</string>
     <string name="b">B</string>
-    <string name="hashtag">#</string>
+    <string name="hashtag">Hex:</string>
     <string name="barRGB">Barras RGB</string>
     <string name="chooseOption">Elegir una opcion: </string>
 </resources>

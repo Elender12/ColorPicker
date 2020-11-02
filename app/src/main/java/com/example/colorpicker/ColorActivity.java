@@ -20,22 +20,22 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * @author Elena
  */
 public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     private static final String TAG = "testingTAG";
     SeekBar redSeekBar, greenSeekBar, blueSeekBar;
-    int progressRed = 0, progressGreen = 0, progressBlue = 0;
-    int colorHex = 0;
-    TextView r, g, b, hash;
+    int progressRed = 0, progressGreen = 0, progressBlue = 0, colorHex = 0;
+    TextView r, g, b, hash, demoText, lblRed, lblGreen, lblBlue;
     SeekBar.OnSeekBarChangeListener seekBarListener;
     TextWatcher textWatcher;
     View view;
     ImageButton optionsButton;
-    TextView demoText;
-    EditText editTextRED, editTextGREEN, editTextBLUE;
-    EditText inputValues;
+    EditText editTextRED, editTextGREEN, editTextBLUE, inputValues;
     CustomTextWatcher ctwR, ctwG, ctwB;
     String hex = "";
 
@@ -60,10 +60,22 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
         this.b = findViewById(R.id.tvB);
         this.hash = findViewById(R.id.tvHash);
         this.view.setBackgroundColor(Color.WHITE);
+        this.lblRed= findViewById(R.id.lblRed);
+        this.lblGreen = findViewById(R.id.lblGreen);
+        this.lblBlue = findViewById(R.id.lblBlue);
         //disable inputs
         this.inputValues.setEnabled(false);
         disableEditTextRGB();
         disableSeekbars();
+        //options menu
+        this.optionsButton.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(this, v);
+            MenuInflater inflater = popup.getMenuInflater();
+            inflater.inflate(R.menu.app_menu, popup.getMenu());
+            popup.setOnMenuItemClickListener(ColorActivity.this);
+            popup.show();
+        });
+
         //implementar LISTENERS para los seek bars
         seekBarListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -75,7 +87,6 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     view.setBackgroundColor(Color.rgb(progressRed, progressGreen, progressBlue));
                     colorHex = Color.argb(0, progressRed, progressGreen, progressBlue);
                     hex = Integer.toHexString(colorHex);
-                    inputValues.setText(hex);
                     if (!inputValues.isEnabled()) {
                         inputValues.setText(hex);
                     }
@@ -86,7 +97,6 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     view.setBackgroundColor(Color.rgb(progressRed, progressGreen, progressBlue));
                     colorHex = Color.argb(0, progressRed, progressGreen, progressBlue);
                     hex = Integer.toHexString(colorHex);
-                    inputValues.setText(hex);
                     if (!inputValues.isEnabled()) {
                         inputValues.setText(hex);
                     }
@@ -97,7 +107,6 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     view.setBackgroundColor(Color.rgb(progressRed, progressGreen, progressBlue));
                     colorHex = Color.argb(0, progressRed, progressGreen, progressBlue);
                     hex = Integer.toHexString(colorHex);
-                    inputValues.setText(hex);
                     if (!inputValues.isEnabled()) {
                         inputValues.setText(hex);
                     }
@@ -111,41 +120,32 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         };
-        redSeekBar.setOnSeekBarChangeListener(seekBarListener);
-        greenSeekBar.setOnSeekBarChangeListener(seekBarListener);
-        blueSeekBar.setOnSeekBarChangeListener(seekBarListener);
-        //options menu
-        this.optionsButton.setOnClickListener(v -> {
-            PopupMenu popup = new PopupMenu(this, v);
-            MenuInflater inflater = popup.getMenuInflater();
-            inflater.inflate(R.menu.app_menu, popup.getMenu());
-            popup.setOnMenuItemClickListener(ColorActivity.this);
-            popup.show();
-        });
-
 
         //text watchers
-        ctwR = new CustomTextWatcher(editTextRED, redSeekBar, "red", this);
-        ctwG = new CustomTextWatcher(editTextGREEN, greenSeekBar, "green", this);
-        ctwB = new CustomTextWatcher(editTextBLUE, blueSeekBar, "blue", this);
+        ctwR = new CustomTextWatcher(editTextRED, redSeekBar, "red", this, this.inputValues);
+        ctwG = new CustomTextWatcher(editTextGREEN, greenSeekBar, "green", this, this.inputValues);
+        ctwB = new CustomTextWatcher(editTextBLUE, blueSeekBar, "blue", this, this.inputValues);
         textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String value = s.toString();
-                inputValues.setSelection(value.length());
+               inputValues.setSelection(inputValues.length());
             }
-
             @Override
             public void afterTextChanged(Editable s) {
+                int color;
+                int r, g, b;
+                inputValues.setSelection(inputValues.length());
                 int hexFormat = 7;
-                if (s.length() == hexFormat) {
+                String HEX_PATTERN = "^#([A-Fa-f0-9]{6})$";
+                Pattern p = Pattern.compile(HEX_PATTERN);
+                Matcher m = p.matcher(s.toString());
+                boolean isValid = m.matches();
+                if (s.length()== hexFormat && isValid) {
                     try {
-                        int color = Color.parseColor(String.valueOf(s));
-                        int r, g, b;
+                        color = Color.parseColor(String.valueOf(s));
                         r = Color.red(color);
                         g = Color.green(color);
                         b = Color.blue(color);
@@ -159,13 +159,18 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                         demoText.setTextColor(Color.parseColor(s.toString()));
                     } catch(IllegalArgumentException iae){
                         Toast.makeText(ColorActivity.this, "El color no está en un formato correcto.", Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "afterTextChanged: salta el error con:" + s);
+                        resetDemoColors();
                         s.clear();
-                    }
+                    };
+                } else if(s.length() == hexFormat && !isValid){
+                    Toast.makeText(ColorActivity.this, "El color no está en un formato correcto.", Toast.LENGTH_LONG).show();
+                    s.clear();
+                    clearEditText();
+                    resetBarProgress();
+                    resetDemoColors();
                 }
             }
         };
-
     }
         @Override
         public boolean onMenuItemClick(MenuItem item) {
@@ -176,30 +181,24 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     disableSeekbars();
                     resetDemoColors();
                     clearEditText();
-                    //habilito valores HEX
-                    this.inputValues.setInputType(InputType.TYPE_CLASS_TEXT);
+                    disableRGBLabels();
                     this.inputValues.setEnabled(true);
-                    //le digo de que tipo es el input
                     this.hash.setTextColor(Color.BLACK);
                     this.inputValues.getText().clear();
                     this.inputValues.addTextChangedListener(textWatcher);
                     item.setChecked(!item.isChecked());
                     return true;
                 }else if(item.getItemId() == R.id.toRGB) {
-                    //le pongo el color blanco por defecto
                     resetDemoColors();
                     disableSeekbars();
-                    this.hash.setTextColor(Color.GRAY);
-                    //deshabilito los otros inputs
-                    this.inputValues.setEnabled(false);
-                    //habilito los de RGB
+                    disableRGBLabels();
                     enableEditTextRGB();
                     activeTextViewRGB();
-                    //limpio los valores anteriores
                     resetBarProgress();
+                    this.hash.setTextColor(Color.GRAY);
+                    this.inputValues.setEnabled(false);
                     this.inputValues.getText().clear();
                     clearEditText();
-                    //implemento listeners
                     this.editTextRED.addTextChangedListener(ctwR);
                     this.editTextGREEN.addTextChangedListener(ctwG);
                     this.editTextBLUE.addTextChangedListener(ctwB);
@@ -207,13 +206,17 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     return true;
                 } else if (item.getItemId() == R.id.Bars) {
                     disableTextViewRGB();
-                    this.hash.setTextColor(Color.GRAY);
-                    this.inputValues.setEnabled(false);
                     disableEditTextRGB();
                     enableSeekBars();
                     resetBarProgress();
                     clearEditText();
+                    enableRGBLabels();
+                    this.hash.setTextColor(Color.GRAY);
+                    this.inputValues.setEnabled(false);
                     this.inputValues.getText().clear();
+                    redSeekBar.setOnSeekBarChangeListener(seekBarListener);
+                    greenSeekBar.setOnSeekBarChangeListener(seekBarListener);
+                    blueSeekBar.setOnSeekBarChangeListener(seekBarListener);
                     item.setChecked(!item.isChecked());
                     return true;
                 }
@@ -272,5 +275,15 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
     public void resetDemoColors() {
         this.view.setBackgroundColor(Color.WHITE);
         this.demoText.setTextColor(Color.BLACK);
+    }
+    public void enableRGBLabels(){
+        this.lblRed.setTextColor(Color.RED);
+        this.lblGreen.setTextColor(Color.GREEN);
+        this.lblBlue.setTextColor(Color.BLUE);
+    }
+    public void disableRGBLabels(){
+        this.lblRed.setTextColor(Color.GRAY);
+        this.lblGreen.setTextColor(Color.GRAY);
+        this.lblBlue.setTextColor(Color.GRAY);
     }
 }
