@@ -122,9 +122,9 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
         };
 
         //text watchers
-        ctwR = new CustomTextWatcher(editTextRED, redSeekBar, "red", this, this.inputValues);
-        ctwG = new CustomTextWatcher(editTextGREEN, greenSeekBar, "green", this, this.inputValues);
-        ctwB = new CustomTextWatcher(editTextBLUE, blueSeekBar, "blue", this, this.inputValues);
+        ctwR = new CustomTextWatcher(editTextRED, redSeekBar, "red", this, this.inputValues, this.view, this.demoText);
+        ctwG = new CustomTextWatcher(editTextGREEN, greenSeekBar, "green", this, this.inputValues, this.view,  this.demoText);
+        ctwB = new CustomTextWatcher(editTextBLUE, blueSeekBar, "blue", this, this.inputValues, this.view,  this.demoText);
         textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
