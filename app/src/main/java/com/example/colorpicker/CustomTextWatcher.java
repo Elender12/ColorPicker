@@ -75,6 +75,8 @@ public class CustomTextWatcher implements TextWatcher {
                 bar.setProgress(value);
             } else if (value > 255 && s.length() == 3) {
                 Toast.makeText(context, "Solo se permiten valores de 0 a 255.", Toast.LENGTH_LONG).show();
+                view.setBackgroundColor(Color.WHITE);
+                demoText.setTextColor(Color.BLACK);
                 inputValues.getText().clear();
                 textValue.getText().clear();
             }
