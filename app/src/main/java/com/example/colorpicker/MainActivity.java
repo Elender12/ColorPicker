@@ -11,11 +11,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Toast;
-
+/**
+ * @author Elena Cirstea
+ * */
 public class MainActivity extends AppCompatActivity {
-
     Button menu;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

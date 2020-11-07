@@ -14,6 +14,9 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
+/**
+ * @author Elena Cirstea
+ * */
 public class CustomTextWatcher implements TextWatcher {
 
     private EditText textValue;
@@ -23,6 +26,8 @@ public class CustomTextWatcher implements TextWatcher {
     private EditText inputValues;
     private View view;
     private TextView demoText;
+
+
 
     public CustomTextWatcher(EditText textValue, SeekBar bar, String color, Context context, EditText inputValues, View view, TextView demoText) {
         this.textValue = textValue;
@@ -38,11 +43,12 @@ public class CustomTextWatcher implements TextWatcher {
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
     }
+
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         textValue.setSelection(textValue.length());
-
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void afterTextChanged(Editable s) {

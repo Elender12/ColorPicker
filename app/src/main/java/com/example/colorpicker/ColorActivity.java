@@ -24,7 +24,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author Elena
+ * @author Elena Cirstea
+ *
  */
 public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     private static final String TAG = "testingTAG";
@@ -44,7 +45,7 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.color_activity);
-        //inicializar las vistas
+        //bound the views
         this.view = findViewById(R.id.colorBkgView);
         this.blueSeekBar = findViewById(R.id.seekBarBLUE);
         this.greenSeekBar = findViewById(R.id.seekBarGREEN);
@@ -67,7 +68,7 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
         this.inputValues.setEnabled(false);
         disableEditTextRGB();
         disableSeekbars();
-        //options menu
+
         this.optionsButton.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(this, v);
             MenuInflater inflater = popup.getMenuInflater();
@@ -76,7 +77,6 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
             popup.show();
         });
 
-        //implementar LISTENERS para los seek bars
         seekBarListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -90,6 +90,7 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     if (!inputValues.isEnabled()) {
                         inputValues.setText(hex);
                     }
+
                 } else if (seekBar.getId() == R.id.seekBarGREEN) {
                     progressGreen = seekBar.getProgress();
                     demoText.setTextColor(Color.rgb(progressRed, progressGreen, progressBlue));
@@ -125,6 +126,7 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
         ctwR = new CustomTextWatcher(editTextRED, redSeekBar, "red", this, this.inputValues, this.view, this.demoText);
         ctwG = new CustomTextWatcher(editTextGREEN, greenSeekBar, "green", this, this.inputValues, this.view,  this.demoText);
         ctwB = new CustomTextWatcher(editTextBLUE, blueSeekBar, "blue", this, this.inputValues, this.view,  this.demoText);
+
         textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
