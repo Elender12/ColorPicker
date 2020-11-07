@@ -22,7 +22,7 @@ public class CustomTextWatcher implements TextWatcher {
     private static final int OLD_MAX_VALUE= 255;
     private static final int OLD_MIN_VALUE = 0;
     private static final float NEW_MIN_VALUE= 0;
-    private static final float NEW_MAX_VALUE = 0;
+    private static final float NEW_MAX_VALUE = 1;
     float oldRange = (OLD_MAX_VALUE- OLD_MIN_VALUE);
     float newRange= (NEW_MAX_VALUE- OLD_MIN_VALUE);
     private EditText textValue;
@@ -109,9 +109,9 @@ public class CustomTextWatcher implements TextWatcher {
                 bar.setProgress((int) value);
             } else if (value > 255 && s.length() == 3) {
                 Toast.makeText(context, "Solo se permiten valores de 0 a 255.", Toast.LENGTH_LONG).show();
-                view.setBackgroundColor(Color.WHITE);
-                demoText.setTextColor(Color.BLACK);
-                inputValues.getText().clear();
+                //view.setBackgroundColor(Color.WHITE);
+                //demoText.setTextColor(Color.BLACK);
+                //inputValues.getText().clear();
                 textValue.getText().clear();
             }
         } catch (NumberFormatException ignored) {
