@@ -80,7 +80,7 @@ public class CustomTextWatcher implements TextWatcher {
                         break;
                     case "green":
                         if(textValue.isEnabled()){
-                            newValue = (((value-0) * newRange)/ oldRange) + 0;
+                            newValue = (((value - OLD_MIN_VALUE) * newRange)/ oldRange)+ NEW_MIN_VALUE;
                             view.setBackgroundColor(Color.rgb(c.red(), newValue, c.blue()));
                             demoText.setTextColor(Color.rgb(c.red(), newValue, c.blue()));
                             //converts the value to HEX
@@ -93,7 +93,7 @@ public class CustomTextWatcher implements TextWatcher {
                         break;
                     case "blue":
                         if(textValue.isEnabled()){
-                            newValue = (((value-0) * newRange)/ oldRange) + 0;
+                            newValue = (((value - OLD_MIN_VALUE) * newRange)/ oldRange)+ NEW_MIN_VALUE;
                             view.setBackgroundColor(Color.rgb(c.red(), c.green(), newValue));
                             demoText.setTextColor(Color.rgb(c.red(), c.green(), newValue));
                             //converts the value to HEX
