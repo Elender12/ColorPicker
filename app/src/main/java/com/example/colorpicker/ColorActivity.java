@@ -28,7 +28,6 @@ import java.util.regex.Pattern;
  *
  */
 public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
-    private static final String TAG = "testingTAG";
     SeekBar redSeekBar, greenSeekBar, blueSeekBar;
     int progressRed = 0, progressGreen = 0, progressBlue = 0, colorHex = 0;
     TextView r, g, b, hash, demoText, lblRed, lblGreen, lblBlue;
@@ -69,6 +68,7 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
         disableEditTextRGB();
         disableSeekbars();
 
+        //shows the menu
         this.optionsButton.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(this, v);
             MenuInflater inflater = popup.getMenuInflater();
@@ -80,6 +80,14 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
         seekBarListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
                 if (seekBar.getId() == R.id.seekBarRED) {
                     progressRed = seekBar.getProgress();
                     editTextRED.setText(String.valueOf(progressRed));
@@ -113,16 +121,9 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     }
                 }
             }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
         };
 
-        //text watchers
+        //custom text watchers for R G B input
         ctwR = new CustomTextWatcher(editTextRED, redSeekBar, "red", this, this.inputValues, this.view, this.demoText);
         ctwG = new CustomTextWatcher(editTextGREEN, greenSeekBar, "green", this, this.inputValues, this.view,  this.demoText);
         ctwB = new CustomTextWatcher(editTextBLUE, blueSeekBar, "blue", this, this.inputValues, this.view,  this.demoText);
@@ -200,6 +201,10 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     this.hash.setTextColor(Color.GRAY);
                     this.inputValues.setEnabled(false);
                     this.inputValues.getText().clear();
+                    this.inputValues.removeTextChangedListener(textWatcher);
+                    redSeekBar.setOnSeekBarChangeListener(null);
+                    greenSeekBar.setOnSeekBarChangeListener(null);
+                    blueSeekBar.setOnSeekBarChangeListener(null);
                     clearEditText();
                     this.editTextRED.addTextChangedListener(ctwR);
                     this.editTextGREEN.addTextChangedListener(ctwG);
@@ -225,7 +230,7 @@ public class ColorActivity extends AppCompatActivity implements PopupMenu.OnMenu
             return super.onOptionsItemSelected(item);
         }
 
-    //methods
+    //methods to adjust the UI
     public void activeTextViewRGB() {
         this.r.setTextColor(Color.RED);
         this.g.setTextColor(Color.GREEN);
