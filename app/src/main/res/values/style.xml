@@ -3,4 +3,13 @@
     <style name="fontSize" >
         <item name="android:textSize">24sp</item>
     </style>
+    <style name="fontTitle" >
+        <item name="android:textSize">28sp</item>
+    </style>
+    <style name="demoTextSize">
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="landFontSize">
+        <item name="android:textSize">18sp</item>
+    </style>
 </resources>

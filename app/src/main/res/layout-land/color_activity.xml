@@ -289,6 +289,7 @@
 
     <TextView
         android:id="@+id/demoText"
+        style="@style/landFontSize"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#C3C1C1"
@@ -387,6 +388,7 @@
 
     <TextView
         android:id="@+id/textView7"
+        style="@style/landFontSize"
         android:layout_width="453dp"
         android:layout_height="28dp"
         android:gravity="center"

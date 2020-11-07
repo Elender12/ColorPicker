@@ -20,7 +20,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline14"
         app:layout_constraintTop_toTopOf="@+id/guideline20"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/editTextBLUE"
@@ -35,7 +36,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline21"
         app:layout_constraintTop_toTopOf="@+id/guideline20"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:autofillHints="" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline14"
@@ -53,6 +55,7 @@
 
     <TextView
         android:id="@+id/lblBlue"
+        style="@style/fontSize"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
@@ -66,6 +69,7 @@
 
     <TextView
         android:id="@+id/lblGreen"
+        style="@style/fontSize"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
@@ -148,6 +152,7 @@
 
     <TextView
         android:id="@+id/lblRed"
+        style="@style/fontSize"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
@@ -241,13 +246,15 @@
         app:layout_constraintHorizontal_bias="0.528"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline12"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:importantForAutofill="no" />
 
     <ImageButton
         android:id="@+id/optionsInput"
         android:layout_width="48dp"
         android:layout_height="43dp"
         android:layout_marginBottom="8dp"
+        android:contentDescription="@string/desc"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toTopOf="@+id/editTextBLUE"
         app:layout_constraintEnd_toStartOf="@+id/guideline13"
@@ -294,6 +301,7 @@
 
     <TextView
         android:id="@+id/demoText"
+        style="@style/demoTextSize"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#C3C1C1"
@@ -329,10 +337,12 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline20"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/tvR"
+        style="@style/fontSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/r"
@@ -346,6 +356,7 @@
 
     <TextView
         android:id="@+id/tvB"
+        style="@style/fontSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/b"
@@ -359,6 +370,7 @@
 
     <TextView
         android:id="@+id/tvG"
+        style="@style/fontSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/g"
@@ -372,6 +384,7 @@
 
     <TextView
         android:id="@+id/tvHash"
+        style="@style/fontSize"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
@@ -385,12 +398,12 @@
 
     <TextView
         android:id="@+id/textView7"
+        style="@style/fontSize"
         android:layout_width="206dp"
         android:layout_height="43dp"
         android:gravity="center"
         android:text="@string/chooseOption"
         android:textColor="@color/black"
-        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline20"
         app:layout_constraintEnd_toStartOf="@+id/guideline21"
         app:layout_constraintHorizontal_bias="0.0"
